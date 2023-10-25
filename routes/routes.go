@@ -1,7 +1,7 @@
 package routes
 
 import (
-	configs "santapKlik/config"
+	"santapKlik/configs"
 	"santapKlik/controllers"
 
 	"github.com/labstack/echo/v4"

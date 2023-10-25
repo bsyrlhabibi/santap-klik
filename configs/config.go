@@ -9,15 +9,15 @@ import (
 )
 
 type ProgramConfig struct {
-	ServerPort     int
-	DBPort         int
-	DBHost         string
-	DBUser         string
-	DBPass         string
-	DBName         string
-	Secret         string
-	RefreshSecret  string
-	AdminSecretKey string
+	ServerPort      int
+	DBPort          int
+	DBHost          string
+	DBUser          string
+	DBPass          string
+	DBName          string
+	Secret          string
+	RefreshSecret   string
+	InitializeAdmin bool
 }
 
 func InitConfig() *ProgramConfig {
@@ -84,10 +84,16 @@ func loadConfig() *ProgramConfig {
 		res.RefreshSecret = val
 	}
 
-	if val, found := os.LookupEnv("ADMIN_SECRET_KEY"); found {
-		res.AdminSecretKey = val
+	if val, found := os.LookupEnv("INITIALIZE_ADMIN"); found {
+		initializeAdmin, err := strconv.ParseBool(val)
+		if err != nil {
+			logrus.Error("Config : invalid initialize admin value,", err.Error())
+			return nil
+		}
+		res.InitializeAdmin = initializeAdmin
+	} else {
+		res.InitializeAdmin = true
 	}
 
 	return res
-
 }
