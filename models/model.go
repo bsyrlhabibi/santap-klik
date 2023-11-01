@@ -2,20 +2,23 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"santapKlik/configs"
 
-	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-func InitModel(config configs.ProgramConfig) *gorm.DB {
-	var dsn = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.DBUser, config.DBPass, config.DBHost, config.DBPort, config.DBName)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+func InitModel(c configs.ProgramConfig) *gorm.DB {
+	connStr := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		c.DBUser,
+		c.DBPass,
+		c.DBHost,
+		c.DBPort,
+		c.DBName)
+	db, err := gorm.Open(mysql.Open(connStr), &gorm.Config{})
 	if err != nil {
-		logrus.Error("Model : cannot connect to database, ", err.Error())
-		return nil
-
+		log.Fatal("cannot connect database, ", err.Error())
 	}
 
 	return db
