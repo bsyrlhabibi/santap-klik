@@ -18,6 +18,7 @@ type ProgramConfig struct {
 	Secret          string
 	RefreshSecret   string
 	InitializeAdmin bool
+	CLOUDINARY      string
 }
 
 func InitConfig() *ProgramConfig {
@@ -93,6 +94,10 @@ func loadConfig() *ProgramConfig {
 		res.InitializeAdmin = initializeAdmin
 	} else {
 		res.InitializeAdmin = true
+	}
+
+	if val, found := os.LookupEnv("CLOUDINARY_URL"); found {
+		res.CLOUDINARY = val
 	}
 
 	return res
