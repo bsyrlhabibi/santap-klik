@@ -39,7 +39,7 @@ jobs:
           script: |
             docker stop ${{ secrets.CNAME }}
             docker rm ${{ secrets.CNAME }}
-            docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/imgkmb
+            docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/santapklik
             docker run --name ${{ secrets.CNAME }} -p 8000:8000 -d \
               -e INITIALIZE_ADMIN=${{ secrets.INITIALIZE_ADMIN }} \
               -e CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }} \
