@@ -1,4 +1,3 @@
-// File: initialization/initialize.go
 package initialization
 
 import (
@@ -10,23 +9,24 @@ import (
 )
 
 func InitializeAdmin(db *gorm.DB) {
-	initialAdminUsername := "admin"
-	adminModel := models.NewAdminModel(db)
-	if adminModel.Login(initialAdminUsername, "admin") == nil {
-		initialAdmin := models.Admin{
-			Name:     "Monica",
-			Username: initialAdminUsername,
-			Password: "admin",
-		}
+	admins := []models.Admin{}
+	if err := db.Find(&admins).Error; err != nil {
+		logrus.Fatal("Gagal mengambil data admin")
+		return
+	}
 
-		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(initialAdmin.Password), bcrypt.DefaultCost)
+	for i := range admins {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(admins[i].Password), bcrypt.DefaultCost)
 		if err != nil {
-			logrus.Fatal("Gagal meng-hash password admin awal")
+			logrus.Fatalf("Gagal meng-hash password admin %s", admins[i].Username)
+			return
 		}
-		initialAdmin.Password = string(hashedPassword)
 
-		if err := db.Create(&initialAdmin).Error; err != nil {
-			logrus.Fatal("Gagal membuat admin awal")
+		admins[i].Password = string(hashedPassword)
+
+		if err := db.Save(&admins[i]).Error; err != nil {
+			logrus.Fatalf("Gagal menyimpan data admin %s", admins[i].Username)
+			return
 		}
 	}
 }

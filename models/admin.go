@@ -1,15 +1,21 @@
 package models
 
 import (
+	"errors"
+	"time"
+
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 type Admin struct {
-	Name     string `json:"name" form:"name"`
-	Username string `json:"username" form:"username"`
-	Password string `json:"password" form:"password"`
+	ID        uint      `json:"id" gorm:"primaryKey"`
+	Name      string    `json:"name" form:"name"`
+	Username  string    `json:"username" form:"username"`
+	Password  string    `json:"password" form:"password"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 type LoginModel struct {
@@ -39,4 +45,38 @@ func (am *AdminModel) Login(username string, password string) *Admin {
 	}
 
 	return &data
+}
+
+func (am *AdminModel) Register(name, username, password string) error {
+
+	existingAdmin := am.GetAdminByUsername(am.db, username)
+	if existingAdmin != nil {
+
+		return errors.New("Admin with this username already exists")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	admin := &Admin{
+		Name:     name,
+		Username: username,
+		Password: string(hashedPassword),
+	}
+
+	if err := am.db.Create(admin).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (am *AdminModel) GetAdminByUsername(db *gorm.DB, username string) *Admin {
+	var admin Admin
+	if err := db.Where("username = ?", username).First(&admin).Error; err != nil {
+		return nil
+	}
+	return &admin
 }

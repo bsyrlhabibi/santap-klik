@@ -17,9 +17,14 @@ func InitModel(config configs.ProgramConfig) *gorm.DB {
 		return nil
 
 	}
+
 	return db
 }
 
 func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&Admin{})
+	db.AutoMigrate(&Jajanan{})
+	db.AutoMigrate(&Makanan{})
+	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Order{})
 }
