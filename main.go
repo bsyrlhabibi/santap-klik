@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"log"
+	// "log"
 	"santapKlik/configs"
 	"santapKlik/controllers"
 	"santapKlik/models"
