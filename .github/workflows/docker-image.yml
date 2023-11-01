@@ -44,6 +44,7 @@ jobs:
               -e INITIALIZE_ADMIN=${{ secrets.INITIALIZE_ADMIN }} \
               -e CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }} \
               -e DBHOST=${{ secrets.DBHOST }} -e DBUSER=${{ secrets.DBUSER }} \
+              -e DBPORT=${{ secrets.DBHOST }} -e \
               -e DBPASS=${{ secrets.DBPASS }} -e DBNAME=${{ secrets.DBNAME }} \
               -e SECRET=${{ secrets.SECRET }} -e REFSECRET=${{ secrets.REFSECRET }} \
               -e SERVER=8000 ${{ secrets.DOCKERHUB_USERNAME }}/santapklik
