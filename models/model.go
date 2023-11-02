@@ -2,9 +2,9 @@ package models
 
 import (
 	"fmt"
-	"log"
 	"santapKlik/configs"
 
+	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
