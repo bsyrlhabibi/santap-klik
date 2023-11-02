@@ -25,7 +25,7 @@ Santap Klik menghadirkan cara baru untuk memesan makanan dan jajanan yang membut
 
 - API SPEC : **[API-Spec](https://documenter.getpostman.com/view/25145608/2s9YXce568)**
 
-- ERD : 
+- ERD : **[ERD](https://app.diagrams.net/#G139ywp2XmQkSuVpO2ZyO-TYgEcnT-QmuG)**
 
 Pesan makanan dengan mudah, nikmati proses pemesanan yang unik, dan tunggu dengan kesabaran untuk makanan yang disiapkan dengan cinta oleh Santap Klik.
 
